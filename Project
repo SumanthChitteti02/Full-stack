@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Automated Quiz Engine</title>
+<style>
+body{
+    font-family: Arial;
+    text-align:center;
+    background:#f2f2f2;
+}
+.container{
+    width:450px;
+    margin:80px auto;
+    background:white;
+    padding:30px;
+    box-shadow:0 0 10px gray;
+}
+button{
+    padding:8px 15px;
+    margin:5px;
+    cursor:pointer;
+}
+input{
+    padding:8px;
+    width:80%;
+}
+.hidden{
+    display:none;
+}
+h1,h2{
+    color:#333;
+}
+</style>
+
+<script>
+let score = 0;
+let currentUser = "";
+
+function showLogin(){
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("login").classList.remove("hidden");
+}
+
+function login(){
+    let name = document.getElementById("usernameInput").value;
+    if(name==""){
+        alert("Enter your name");
+        return;
+    }
+    currentUser = name;
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+}
+
+function checkAnswer(correct, selected){
+    if(correct === selected){
+        score++;
+    }
+}
+
+function submitQuiz(){
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("certificate").classList.remove("hidden");
+    document.getElementById("finalName").innerHTML = currentUser;
+    document.getElementById("finalScore").innerHTML = score + " / 3";
+}
+
+function downloadPDF(){
+    window.print();
+}
+</script>
+
+</head>
+<body>
+
+<!-- HOME PAGE -->
+<div class="container" id="home">
+    <h1>Automated Quiz Engine</h1>
+    <p>Test your knowledge and get certified!</p>
+    <button onclick="showLogin()">Start Quiz</button>
+</div>
+
+<!-- LOGIN PAGE -->
+<div class="container hidden" id="login">
+    <h2>Login</h2>
+    <input type="text" id="usernameInput" placeholder="Enter your name"><br><br>
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- QUIZ PAGE -->
+<div class="container hidden" id="quiz">
+    <h2>Quiz</h2>
+
+    <p>1. What is 5 + 5?</p>
+    <button onclick="checkAnswer(10,10)">10</button>
+    <button onclick="checkAnswer(10,8)">8</button>
+
+    <p>2. Capital of India?</p>
+    <button onclick="checkAnswer('Delhi','Delhi')">Delhi</button>
+    <button onclick="checkAnswer('Delhi','Mumbai')">Mumbai</button>
+
+    <p>3. Java is a?</p>
+    <button onclick="checkAnswer('Language','Language')">Programming Language</button>
+    <button onclick="checkAnswer('Language','Fruit')">Fruit</button>
+
+    <br><br>
+    <button onclick="submitQuiz()">Submit</button>
+</div>
+
+<!-- CERTIFICATE PAGE -->
+<div class="container hidden" id="certificate">
+    <h1>Certificate of Completion</h1>
+    <p>This is to certify that</p>
+    <h2 id="finalName"></h2>
+    <p>has successfully completed the Quiz</p>
+    <p>Final Score: <b id="finalScore"></b></p>
+    <br>
+    <button onclick="downloadPDF()">Download as PDF</button>
+</div>
+
+</body>
+</html>
